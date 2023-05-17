@@ -28,6 +28,8 @@ function displayWeather(data)
 	outputDiv.append(topEl);
 	
 	renderWeather( data.list[1].main.feels_like, "p", outputDiv );
+	var dateObj = dayjs.unix( data.list[0].dt );
+	renderWeather( dateObj, "p", outputDiv );
 
 }
 
