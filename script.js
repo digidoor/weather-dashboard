@@ -12,10 +12,11 @@ async function submitHandler()
 	console.log(geoPromise);
 	var geoData = await geoPromise.json();
 	console.log(geoData);
-	const { lon, lat } = geoData;
+	const { lon, lat } = geoData[0];
 	console.log( lon, lat);
 	var weatherPromise = await fetch(apiUrl + lat + "&lon=" + lon + "&appid=" + apiKey);
 	var weatherData = await weatherPromise.json();
+	console.log(weatherData);
 }
 
 
