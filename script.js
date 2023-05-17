@@ -17,6 +17,20 @@ async function submitHandler()
 	var weatherPromise = await fetch(apiUrl + lat + "&lon=" + lon + "&appid=" + apiKey);
 	var weatherData = await weatherPromise.json();
 	console.log(weatherData);
+	displayWeather(weatherData);
+}
+
+function displayWeather(data)
+{
+	var topEl = document.createElement("h3");
+	topEl.textContent = data.list[1].weather[0].description;
+	console.log(data.list[1].weather[0].description);
+	outputDiv.append(topEl);
+}
+
+function renderWeather( data, elementType, parentEl )
+{
+	var x;
 }
 
 
