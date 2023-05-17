@@ -14,7 +14,7 @@ async function submitHandler()
 	console.log(geoData);
 	const { lon, lat } = geoData[0];
 	console.log( lon, lat);
-	var weatherPromise = await fetch(apiUrl + lat + "&lon=" + lon + "&appid=" + apiKey);
+	var weatherPromise = await fetch(apiUrl + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial");
 	var weatherData = await weatherPromise.json();
 	console.log(weatherData);
 	displayWeather(weatherData);
@@ -30,7 +30,9 @@ function displayWeather(data)
 
 function renderWeather( data, elementType, parentEl )
 {
-	var x;
+	let newEl = document.createElement(elementType);
+	newEl.textContent = data;
+	parentEl.append(newEl);
 }
 
 
