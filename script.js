@@ -8,13 +8,13 @@ async function submitHandler()
 {
 	event.preventDefault();
 	outputDiv.textContent = "Form submmitted. Check the console.";
-	var geoPromise = await fetch(apiGeo + 'Sacramento' + "&appid=" + apiKey);
+	var geoPromise = await fetch(`${apiGeo}Sacramento&appid=${apiKey}`);
 	console.log(geoPromise);
 	var geoData = await geoPromise.json();
 	console.log(geoData);
 	const { lon, lat } = geoData[0];
 	console.log( lon, lat);
-	var weatherPromise = await fetch(apiUrl + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial");
+	var weatherPromise = await fetch(`${apiUrl + lat}&lon=${lon}&appid=${apiKey}&units=imperial`);
 	var weatherData = await weatherPromise.json();
 	console.log(weatherData);
 	displayWeather(weatherData);
@@ -26,6 +26,9 @@ function displayWeather(data)
 	topEl.textContent = data.list[1].weather[0].description;
 	console.log(data.list[1].weather[0].description);
 	outputDiv.append(topEl);
+	
+	renderWeather( data.list[1].main.feels_like, "p", outputDiv );
+
 }
 
 function renderWeather( data, elementType, parentEl )
