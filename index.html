@@ -10,16 +10,22 @@
   </head>
 
   <body>
-    <h1>Test heading</h1>
-    <div id="userDiv">
-      <form id="userForm">
-        <input type="text" placeholder="Pick a city." id="userText" />
-        <button id="searchButton">Search</button>
-      </form>
-    </div>
-    
-    <div id="outputDiv">
-        <h1>Put results here, I guess.</h1>
+    <header style="text-align: center;"><h1>Weather Dashboard</h1></header>
+    <hr>
+    <div id="container">
+      <aside class="left">
+        <div id="userDiv">
+          <h1>Search a city name.</h1>
+          <form id="userForm">
+            <input type="text" placeholder="Pick a city." id="userText" />
+            <button id="searchButton">Search</button>
+          </form>
+        </div>
+      </aside>
+      
+      <div id="outputDiv" style="display: inline;" class="right">
+          <h1>Put results here, I guess.</h1>
+      </div>
     </div>
   </body>
 
