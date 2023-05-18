@@ -67,6 +67,7 @@ function displayWeather(data)
 		let j = Math.floor(i/8) + 1; // we want 1 through 5
 		let dateObj = dayjs.unix( data.list[i].dt ).format('MMMM D, YYYY h:mm A');
 		var dayDiv = document.getElementById(`day${j}`);
+		dayDiv.innerHTML = "";
 		dayDiv.classList.add("day");
 		let title = `${data.city.name} ${dateObj}`;
 		let desc = data.list[i].weather[0].description;
