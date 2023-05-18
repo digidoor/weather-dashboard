@@ -31,10 +31,11 @@ function displayWeather(data)
 	renderWeather( data.list[1].weather[0].description, "h3", outputDiv);
 	renderWeather( data.list[1].main.feels_like + "F", "p", outputDiv );
 	//var dateObj = dayjs.unix( data.list[0].dt ).tz('America/Los_Angeles');
-	var dateObj = dayjs.unix( data.list[0].dt ).tz('Asia/Taipei');
-	dateObj.tz('Asia/Taipei');
-	//renderWeather( dateObj, "p", outputDiv );
-	renderWeather( dayjs.tz.guess(), "p", outputDiv );
+	var dateObj = dayjs.unix( data.list[0].dt ).format('MMMM D, YYYY h:mm A');
+	//var dateObj = data.list[0].dt;
+	//dateObj.tz('Asia/Taipei');
+	renderWeather( dateObj, "p", outputDiv );
+	//renderWeather( dayjs.tz.guess(), "p", outputDiv );
 
 }
 
