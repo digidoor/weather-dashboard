@@ -1,3 +1,4 @@
+var weatherHistory;
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
 apiKey = "e3f7cf22dd3edac262ac80be651ffa17";
@@ -46,14 +47,24 @@ function displayWeather(data, city)
 		city[`humid${Math.floor(i/8)+1}`] = humid;
 		city[`wind${Math.floor(i/8)+1}`] = wind;
 	}
+	saveWeatherHistory(city);
 }
-
 function renderWeather( data, elementType, parentEl )
 {
 	let newEl = document.createElement(elementType);
 	newEl.innerHTML = data;
 	parentEl.append(newEl);
 }
-
+function saveWeatherHistory(city)
+{
+	weatherHistory = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+	if(weatherHistory.length == 5)
+		weatherHistory.shift();
+	weatherHistory.push(city);
+	localStorage.setItem("weatherHistory", JSON.stringify(weatherHistory));
+	console.log(weatherHistory);
+}
 
 userFormEl.addEventListener('submit', submitHandler);
+
+//localStorage.removeItem("weatherHistory");
