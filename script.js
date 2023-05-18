@@ -22,22 +22,28 @@ async function submitHandler()
 
 function displayWeather(data, city)
 {
-	
+	let title = `${data.city.name} ${dateObj}`;
+	let desc = data.list[i].weather[0].description;
+	let temp = `Temperature: ${data.list[i].main.temp}F`;
+	let humid = `Humidity: ${data.list[i].main.humidity}%`;
+	let wind = `Wind Speed: ${data.list[i].wind.speed} km/h`;
 	console.log(data.list[1].weather[0].description);
 	let i = 0;
 	for(let i=7; i<40; i=i+8)
 	{
 		let dateObj = dayjs.unix( data.list[i].dt ).format('MMMM D, YYYY h:mm A');
-		renderWeather( dateObj, "h3", outputDiv );
+		renderWeather( `${data.city.name} ${dateObj}`, "h3", outputDiv );
 		renderWeather( data.list[i].weather[0].description, "p", outputDiv);
-		renderWeather( data.list[i].main.feels_like + "F", "p", outputDiv );
+		renderWeather( `Temperature: ${data.list[i].main.temp}F`, "p", outputDiv );
+		renderWeather( `Humidity: ${data.list[i].main.humidity}%`, "p", outputDiv );
+		renderWeather( `Wind Speed: ${data.list[i].wind.speed} km/h`, "p", outputDiv );
 	}
 }
 
 function renderWeather( data, elementType, parentEl )
 {
 	let newEl = document.createElement(elementType);
-	newEl.textContent = data;
+	newEl.innerHTML = data;
 	parentEl.append(newEl);
 }
 
