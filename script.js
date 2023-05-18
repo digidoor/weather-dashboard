@@ -30,6 +30,7 @@ function showHistoryHandler(i, weatherHistory)
 		for(let j=1; j<6; j++)
 		{
 			var dayDiv = document.getElementById(`day${j}`);
+			dayDiv.innerHTML = "";
 			dayDiv.classList.add("day");
 			renderWeather( weatherHistory[i][`title${j}`], "h3", dayDiv);
 			renderWeather( weatherHistory[i][`desc${j}`], "p", dayDiv );
@@ -57,6 +58,7 @@ async function submitHandler()
 function displayWeather(data)
 {
 	var city = {};
+	city.name = data.city.name;
 	console.log(data.list[1].weather[0].description);
 	displayCurrentWeather(data);
 
@@ -84,10 +86,13 @@ function displayWeather(data)
 		city[`wind${j}`] = wind;
 	}
 	saveWeatherHistory(city);
+	historyEl.innerHTML = "";
+	showHistory();
 }
 function displayCurrentWeather(data)
 {
 	let current = document.getElementById("currentWeather");
+	current.innerHTML = "";
 	let heading = document.createElement("h2");
 	heading.innerHTML = `${data.city.name} ${dayjs.unix( data.list[0].dt ).format('MMMM D, YYYY h:mm A')}`;
 	let desc = document.createElement("p");
