@@ -15,20 +15,22 @@
     <div id="container">
       <aside class="left">
         <div id="userDiv">
-          <h1>Search a city name.</h1>
+          <h1>Enter a city.</h1>
           <form id="userForm">
-            <input type="text" placeholder="Pick a city." id="userText" />
+            <input type="text" placeholder="City Name" id="userText" />
             <button id="searchButton">Search</button>
           </form>
+          <div id="history"></div>
         </div>
       </aside>
       
       <div id="outputDiv" style="display: inline;" class="right">
-          <div id="day1" class="day"></div>
-          <div id="day2" class="day"></div>
-          <div id="day3" class="day"></div>
-          <div id="day4" class="day"></div>
-          <div id="day5" class="day"></div>
+        <div id="currentWeather" style="display: block;"></div>
+        <div id="day1"></div>
+        <div id="day2"></div>
+        <div id="day3"></div>
+        <div id="day4"></div>
+        <div id="day5"></div>
       </div>
     </div>
   </body>

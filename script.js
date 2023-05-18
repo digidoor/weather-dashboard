@@ -19,19 +19,22 @@ async function submitHandler()
 	var weatherPromise = await fetch(`${apiUrl + lat}&lon=${lon}&appid=${apiKey}&units=imperial`);
 	var weatherData = await weatherPromise.json();
 	console.log(weatherData);
-	displayWeather(weatherData, city);
+	displayWeather(weatherData);
 }
 
-function displayWeather(data, city)
+function displayWeather(data)
 {
 	var city = {};
 	city.name = data.city.name;
 	console.log(data.list[1].weather[0].description);
-	for(let i=7; i<40; i=i+8)
+
+	displayCurrentWeather(data);
+	for(let i=7; i<40; i=i+8) // we'll use j below to get 1 through 5
 	{
-		let j = Math.floor(i/8) + 1;
+		let j = Math.floor(i/8) + 1; // we want 1 through 5
 		let dateObj = dayjs.unix( data.list[i].dt ).format('MMMM D, YYYY h:mm A');
 		var dayDiv = document.getElementById(`day${j}`);
+		dayDiv.classList.add("day");
 		renderWeather( `${data.city.name} ${dateObj}`, "h3", dayDiv);
 		renderWeather( data.list[i].weather[0].description, "p", dayDiv );
 		renderWeather( `Temperature: ${data.list[i].main.temp}F`, "p", dayDiv );
@@ -50,6 +53,21 @@ function displayWeather(data, city)
 		city[`wind${j}`] = wind;
 	}
 	saveWeatherHistory(city);
+}
+function displayCurrentWeather(data)
+{
+	let current = document.getElementById("currentWeather");
+	let heading = document.createElement("h2");
+	heading.innerHTML = `${data.city.name} ${dayjs.unix( data.list[0].dt ).format('MMMM D, YYYY h:mm A')}`;
+	let desc = document.createElement("p");
+	desc.innerHTML = data.list[0].weather[0].description
+	let temp = document.createElement("p");
+	temp.innerHTML = data.list[0].main.temp;
+	let humid = document.createElement("p");
+	humid.innerHTML = data.list[0].main.humidity;
+	let wind = document.createElement("p");
+	wind.innerHTML = data.list[0].wind.speed;
+	current.append(heading, desc, temp, humid, wind);
 }
 function renderWeather( data, elementType, parentEl )
 {
