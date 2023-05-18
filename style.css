@@ -6,19 +6,21 @@
 
 #container
 {
-    width: 900px;
+    display: flex;
     margin: 0 auto;
 }
 
 .left
 {
-    width: 200px;
     float: left;
+    margin-left: 24px;
+    width: 200px;
 }
 
 .right
 {
     float: left;
-    margin-top: 90px;
+    margin-top: 30px;
+    margin-left: 80px;
     color: red;
 }
