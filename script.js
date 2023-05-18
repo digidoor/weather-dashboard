@@ -16,11 +16,16 @@ function showHistory()
 	{
 		let city = weatherHistory[i].name;
 		console.log(city);
-		button = document.createElement("button");
+		let button = document.createElement("button");
 		button.textContent = city;
 		button.addEventListener( 'click', showHistoryHandler(i, weatherHistory) );
 		historyEl.append(button);
 	}
+	let badButton = document.createElement("button");
+	badButton.textContent = "Delete History";
+	badButton.style.color = "red";
+	badButton.addEventListener( 'click', deleteHistory );
+	historyEl.append(badButton);
 }
 function showHistoryHandler(i, weatherHistory)
 {
@@ -34,12 +39,18 @@ function showHistoryHandler(i, weatherHistory)
 			dayDiv.classList.add("day");
 			renderWeather( weatherHistory[i][`title${j}`], "h3", dayDiv);
 			renderWeather( weatherHistory[i][`desc${j}`], "p", dayDiv );
+			//! ICON STUFF
+			let icon = document.createElement("img");
+			icon.setAttribute('src', weatherHistory[i][`icon${j}`]);
+			dayDiv.append(icon);
+			//! ICON STUFF
 			renderWeather( weatherHistory[i][`temp${j}`], "p", dayDiv );
 			renderWeather( weatherHistory[i][`humid${j}`], "p", dayDiv );
 			renderWeather( weatherHistory[i][`wind${j}`], "p", dayDiv );
 		}
 	}
 }
+function deleteHistory() { localStorage.removeItem("weatherHistory"); }
 
 async function submitHandler()
 {
