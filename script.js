@@ -68,6 +68,7 @@ function displayCurrentWeather(data)
 	let wind = document.createElement("p");
 	wind.innerHTML = data.list[0].wind.speed;
 	current.append(heading, desc, temp, humid, wind);
+	current.classList.add("current");
 }
 function renderWeather( data, elementType, parentEl )
 {
