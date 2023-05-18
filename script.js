@@ -74,8 +74,14 @@ function displayWeather(data)
 		let temp = `Temperature: ${data.list[i].main.temp}F`;
 		let humid = `Humidity: ${data.list[i].main.humidity}%`;
 		let wind = `Wind Speed: ${data.list[i].wind.speed} km/h`;
+		//! ICON STUFF
+		let iconURL = `https://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png`;
+		let icon = document.createElement("img");
+		icon.setAttribute('src', iconURL);
+		//! ICON STUFF
 		renderWeather( title, "h3", dayDiv);
 		renderWeather( desc, "p", dayDiv );
+		dayDiv.append(icon);
 		renderWeather( temp, "p", dayDiv );
 		renderWeather( humid, "p", dayDiv );
 		renderWeather( wind, "p", dayDiv );
@@ -85,6 +91,7 @@ function displayWeather(data)
 		city[`temp${j}`] = temp;
 		city[`humid${j}`] = humid;
 		city[`wind${j}`] = wind;
+		city[`icon${j}`] = iconURL;
 	}
 	saveWeatherHistory(city);
 	historyEl.innerHTML = "";
@@ -106,7 +113,10 @@ function displayCurrentWeather(data)
 	wind.innerHTML = `${data.list[0].wind.speed} km/h`;
 	//! ICON STUFF
 	let iconURL = `https://openweathermap.org/img/w/${data.list[0].weather[0].icon}.png`;
-	current.append(heading, desc, temp, humid, wind);
+	let icon = document.createElement("img");
+	icon.setAttribute('src', iconURL);
+	//! ICON STUFF
+	current.append(heading, desc, icon, temp, humid, wind);
 	current.classList.add("current");
 }
 function renderWeather( data, elementType, parentEl )
