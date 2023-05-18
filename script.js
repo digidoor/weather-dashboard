@@ -12,7 +12,7 @@ async function submitHandler()
 {
 	event.preventDefault();
 	let city = cityInputEl.value.trim();
-	outputDiv.textContent = "Thanks.";
+	//outputDiv.textContent = "Thanks.";
 	var geoPromise = await fetch(`${apiGeo}${city}&appid=${apiKey}`);
 	var geoData = await geoPromise.json();
 	const { lon, lat } = geoData[0];
@@ -29,23 +29,25 @@ function displayWeather(data, city)
 	console.log(data.list[1].weather[0].description);
 	for(let i=7; i<40; i=i+8)
 	{
+		let j = Math.floor(i/8) + 1;
 		let dateObj = dayjs.unix( data.list[i].dt ).format('MMMM D, YYYY h:mm A');
-		renderWeather( `${data.city.name} ${dateObj}`, "h3", outputDiv );
-		renderWeather( data.list[i].weather[0].description, "p", outputDiv);
-		renderWeather( `Temperature: ${data.list[i].main.temp}F`, "p", outputDiv );
-		renderWeather( `Humidity: ${data.list[i].main.humidity}%`, "p", outputDiv );
-		renderWeather( `Wind Speed: ${data.list[i].wind.speed} km/h`, "p", outputDiv );
+		var dayDiv = document.getElementById(`day${j}`);
+		renderWeather( `${data.city.name} ${dateObj}`, "h3", dayDiv);
+		renderWeather( data.list[i].weather[0].description, "p", dayDiv );
+		renderWeather( `Temperature: ${data.list[i].main.temp}F`, "p", dayDiv );
+		renderWeather( `Humidity: ${data.list[i].main.humidity}%`, "p", dayDiv );
+		renderWeather( `Wind Speed: ${data.list[i].wind.speed} km/h`, "p", dayDiv );
 		let title = `${data.city.name} ${dateObj}`;
 		let desc = data.list[i].weather[0].description;
 		let temp = `Temperature: ${data.list[i].main.temp}F`;
 		let humid = `Humidity: ${data.list[i].main.humidity}%`;
 		let wind = `Wind Speed: ${data.list[i].wind.speed} km/h`;
 		console.log("7/8: ", Math.floor(7/8));
-		city[`title${Math.floor(i/8)+1}`] = title;
-		city[`desc${Math.floor(i/8)+1}`] = desc;
-		city[`temp${Math.floor(i/8)+1}`] = temp;
-		city[`humid${Math.floor(i/8)+1}`] = humid;
-		city[`wind${Math.floor(i/8)+1}`] = wind;
+		city[`title${j}`] = title;
+		city[`desc${j}`] = desc;
+		city[`temp${j}`] = temp;
+		city[`humid${j}`] = humid;
+		city[`wind${j}`] = wind;
 	}
 	saveWeatherHistory(city);
 }
