@@ -40,8 +40,14 @@ p
 {
     /* float: middle; */
     display: inline-block;
-    border: 2px solid black;
+    border: 3px solid black;
     padding: 8px;
     margin: 4px;
     text-align: center;
+}
+
+#history button
+{
+    /* color: red; */
+    display: block;
 }

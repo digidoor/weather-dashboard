@@ -7,6 +7,38 @@ const apiGeo = 'https://api.openweathermap.org/geo/1.0/direct?q=';
 var userFormEl = document.getElementById("userForm");
 var outputDiv = document.getElementById("outputDiv");
 var cityInputEl = document.getElementById("userText");
+var historyEl = document.getElementById("history");
+
+function showHistory()
+{
+	weatherHistory = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+	for( let i=0; i<weatherHistory.length; i++)
+	{
+		let city = weatherHistory[i].name;
+		console.log(city);
+		button = document.createElement("button");
+		button.textContent = city;
+		button.addEventListener( 'click', showHistoryHandler(i, weatherHistory) );
+		historyEl.append(button);
+	}
+}
+function showHistoryHandler(i, weatherHistory)
+{
+	return function renderHistory()
+	{
+		console.log(weatherHistory[i]);
+		for(let j=1; j<6; j++)
+		{
+			var dayDiv = document.getElementById(`day${j}`);
+			dayDiv.classList.add("day");
+			renderWeather( weatherHistory[i][`title${j}`], "h3", dayDiv);
+			renderWeather( weatherHistory[i][`desc${j}`], "p", dayDiv );
+			renderWeather( weatherHistory[i][`temp${j}`], "p", dayDiv );
+			renderWeather( weatherHistory[i][`humid${j}`], "p", dayDiv );
+			renderWeather( weatherHistory[i][`wind${j}`], "p", dayDiv );
+		}
+	}
+}
 
 async function submitHandler()
 {
@@ -25,27 +57,26 @@ async function submitHandler()
 function displayWeather(data)
 {
 	var city = {};
-	city.name = data.city.name;
 	console.log(data.list[1].weather[0].description);
-
 	displayCurrentWeather(data);
+
 	for(let i=7; i<40; i=i+8) // we'll use j below to get 1 through 5
 	{
 		let j = Math.floor(i/8) + 1; // we want 1 through 5
 		let dateObj = dayjs.unix( data.list[i].dt ).format('MMMM D, YYYY h:mm A');
 		var dayDiv = document.getElementById(`day${j}`);
 		dayDiv.classList.add("day");
-		renderWeather( `${data.city.name} ${dateObj}`, "h3", dayDiv);
-		renderWeather( data.list[i].weather[0].description, "p", dayDiv );
-		renderWeather( `Temperature: ${data.list[i].main.temp}F`, "p", dayDiv );
-		renderWeather( `Humidity: ${data.list[i].main.humidity}%`, "p", dayDiv );
-		renderWeather( `Wind Speed: ${data.list[i].wind.speed} km/h`, "p", dayDiv );
 		let title = `${data.city.name} ${dateObj}`;
 		let desc = data.list[i].weather[0].description;
 		let temp = `Temperature: ${data.list[i].main.temp}F`;
 		let humid = `Humidity: ${data.list[i].main.humidity}%`;
 		let wind = `Wind Speed: ${data.list[i].wind.speed} km/h`;
-		console.log("7/8: ", Math.floor(7/8));
+		renderWeather( title, "h3", dayDiv);
+		renderWeather( desc, "p", dayDiv );
+		renderWeather( temp, "p", dayDiv );
+		renderWeather( humid, "p", dayDiv );
+		renderWeather( wind, "p", dayDiv );
+		//console.log("7/8: ", Math.floor(7/8));
 		city[`title${j}`] = title;
 		city[`desc${j}`] = desc;
 		city[`temp${j}`] = temp;
@@ -79,13 +110,14 @@ function renderWeather( data, elementType, parentEl )
 function saveWeatherHistory(city)
 {
 	weatherHistory = JSON.parse(localStorage.getItem("weatherHistory")) || [];
-	if(weatherHistory.length == 5)
+	if(weatherHistory.length == 8)
 		weatherHistory.shift();
 	weatherHistory.push(city);
 	localStorage.setItem("weatherHistory", JSON.stringify(weatherHistory));
 	console.log(weatherHistory);
 }
 
+showHistory();
 userFormEl.addEventListener('submit', submitHandler);
 
 //localStorage.removeItem("weatherHistory");
