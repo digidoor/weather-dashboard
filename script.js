@@ -9,34 +9,29 @@ var outputDiv = document.getElementById("outputDiv");
 async function submitHandler()
 {
 	event.preventDefault();
+	let city = "Sacramento";
 	outputDiv.textContent = "Form submmitted. Check the console.";
-	var geoPromise = await fetch(`${apiGeo}Sacramento&appid=${apiKey}`);
-	console.log(geoPromise);
+	var geoPromise = await fetch(`${apiGeo}${city}&appid=${apiKey}`);
 	var geoData = await geoPromise.json();
-	console.log(geoData);
 	const { lon, lat } = geoData[0];
-	console.log( lon, lat);
 	var weatherPromise = await fetch(`${apiUrl + lat}&lon=${lon}&appid=${apiKey}&units=imperial`);
 	var weatherData = await weatherPromise.json();
 	console.log(weatherData);
-	displayWeather(weatherData);
+	displayWeather(weatherData, city);
 }
 
-function displayWeather(data)
+function displayWeather(data, city)
 {
-	//var topEl = document.createElement("h3");
-	//topEl.textContent = data.list[1].weather[0].description;
-	//outputDiv.append(topEl);
+	
 	console.log(data.list[1].weather[0].description);
-	renderWeather( data.list[1].weather[0].description, "h3", outputDiv);
-	renderWeather( data.list[1].main.feels_like + "F", "p", outputDiv );
-	//var dateObj = dayjs.unix( data.list[0].dt ).tz('America/Los_Angeles');
-	var dateObj = dayjs.unix( data.list[0].dt ).format('MMMM D, YYYY h:mm A');
-	//var dateObj = data.list[0].dt;
-	//dateObj.tz('Asia/Taipei');
-	renderWeather( dateObj, "p", outputDiv );
-	//renderWeather( dayjs.tz.guess(), "p", outputDiv );
-
+	let i = 0;
+	for(let i=7; i<40; i=i+8)
+	{
+		let dateObj = dayjs.unix( data.list[i].dt ).format('MMMM D, YYYY h:mm A');
+		renderWeather( dateObj, "h3", outputDiv );
+		renderWeather( data.list[i].weather[0].description, "p", outputDiv);
+		renderWeather( data.list[i].main.feels_like + "F", "p", outputDiv );
+	}
 }
 
 function renderWeather( data, elementType, parentEl )
