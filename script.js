@@ -1,3 +1,5 @@
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
 apiKey = "e3f7cf22dd3edac262ac80be651ffa17";
 var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=";
 const apiGeo = 'https://api.openweathermap.org/geo/1.0/direct?q=';
@@ -22,14 +24,17 @@ async function submitHandler()
 
 function displayWeather(data)
 {
-	var topEl = document.createElement("h3");
-	topEl.textContent = data.list[1].weather[0].description;
+	//var topEl = document.createElement("h3");
+	//topEl.textContent = data.list[1].weather[0].description;
+	//outputDiv.append(topEl);
 	console.log(data.list[1].weather[0].description);
-	outputDiv.append(topEl);
-	
-	renderWeather( data.list[1].main.feels_like, "p", outputDiv );
-	var dateObj = dayjs.unix( data.list[0].dt );
-	renderWeather( dateObj, "p", outputDiv );
+	renderWeather( data.list[1].weather[0].description, "h3", outputDiv);
+	renderWeather( data.list[1].main.feels_like + "F", "p", outputDiv );
+	//var dateObj = dayjs.unix( data.list[0].dt ).tz('America/Los_Angeles');
+	var dateObj = dayjs.unix( data.list[0].dt ).tz('Asia/Taipei');
+	dateObj.tz('Asia/Taipei');
+	//renderWeather( dateObj, "p", outputDiv );
+	renderWeather( dayjs.tz.guess(), "p", outputDiv );
 
 }
 
