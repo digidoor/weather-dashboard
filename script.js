@@ -51,7 +51,7 @@ async function submitHandler()
 	const { lon, lat } = geoData[0];
 	var weatherPromise = await fetch(`${apiUrl + lat}&lon=${lon}&appid=${apiKey}&units=imperial`);
 	var weatherData = await weatherPromise.json();
-	console.log(weatherData);
+	console.log("weather data: ", weatherData);
 	displayWeather(weatherData);
 }
 
@@ -104,6 +104,8 @@ function displayCurrentWeather(data)
 	humid.innerHTML = `${data.list[0].main.humidity}%`;
 	let wind = document.createElement("p");
 	wind.innerHTML = `${data.list[0].wind.speed} km/h`;
+	//! ICON STUFF
+	let iconURL = `https://openweathermap.org/img/w/${data.list[0].weather[0].icon}.png`;
 	current.append(heading, desc, temp, humid, wind);
 	current.classList.add("current");
 }
