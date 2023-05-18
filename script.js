@@ -50,12 +50,13 @@ function showHistoryHandler(i, weatherHistory)
 		}
 	}
 }
-function deleteHistory() { localStorage.removeItem("weatherHistory"); }
+function deleteHistory() { localStorage.removeItem("weatherHistory"); location.reload(); }
 
 async function submitHandler()
 {
 	event.preventDefault();
 	let city = cityInputEl.value.trim();
+	cityInputEl.value = "";
 	//outputDiv.textContent = "Thanks.";
 	var geoPromise = await fetch(`${apiGeo}${city}&appid=${apiKey}`);
 	var geoData = await geoPromise.json();
